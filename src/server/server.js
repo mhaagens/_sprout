@@ -1,9 +1,8 @@
 import express from "express";
+import renderApp from "services/render_app";
 
 const server = express();
 
-server.get("/", (req, res) => {
-  res.send("HELLO SPROUT!!!");
-});
+server.get("*", renderApp);
 
 export default server;

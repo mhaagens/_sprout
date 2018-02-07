@@ -23,6 +23,19 @@ const BUILD_DIR = resolve(BASE_DIR, "build");
 // Run configuration and Webpack
 (async () => {
   try {
+    // Get aliases
+
+    let clientAliases = {};
+    let serverAliases = {};
+
+    for (let [k, v] of Object.entries(sproutConfig.aliases.client)) {
+      clientAliases[k] = `${SRC_DIR}/${v}`;
+    }
+
+    for (let [k, v] of Object.entries(sproutConfig.aliases.server)) {
+      serverAliases[k] = `${SRC_DIR}/${v}`;
+    }
+
     // Verify configuration
     await sproutUtils.verifyConfig(sproutConfig);
 
@@ -32,9 +45,7 @@ const BUILD_DIR = resolve(BASE_DIR, "build");
       module: { rules: [...loaders.clientLoaders] },
       plugins: [...plugins.clientPlugins],
       resolve: {
-        alias: {
-          ...sproutConfig.aliases
-        }
+        alias: clientAliases
       },
       output: {
         path: BUILD_DIR,
@@ -54,12 +65,14 @@ const BUILD_DIR = resolve(BASE_DIR, "build");
       target: "node",
       externals: [
         nodeExternals({
-          whitelist: DEV ? ['webpack/hot/poll?1000'] : []
+          whitelist: DEV ? ["webpack/hot/poll?1000"] : []
         })
       ],
       module: { rules: [...loaders.serverLoaders] },
       plugins: [...plugins.serverPlugins(sproutConfig)],
-      resolve: { alias: { ...sproutConfig.aliases } },
+      resolve: {
+        alias: serverAliases
+      },
       output: { path: BUILD_DIR, publicPath: "/", filename: "server.js" }
     };
 

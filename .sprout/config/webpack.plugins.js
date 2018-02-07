@@ -3,7 +3,9 @@ import StartServerWebpackPlugin from "start-server-webpack-plugin";
 const DEV = process.env.NODE_ENV !== "production";
 
 const commonPlugins = [
-  ...(DEV ? [new webpack.HotModuleReplacementPlugin()] : [])
+  ...(DEV ? [new webpack.HotModuleReplacementPlugin()] : []),
+  new webpack.NamedModulesPlugin(),
+  new webpack.NoErrorsPlugin()
 ];
 
 export const clientPlugins = [...commonPlugins];

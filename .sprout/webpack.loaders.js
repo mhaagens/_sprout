@@ -24,10 +24,18 @@ const commonLoaders = [
   }
 ];
 
-export const clientLoaders = [
+let clientLoaders = [
+  ...commonLoaders
+];
+
+let serverLoaders = [
     ...commonLoaders
 ];
 
-export const serverLoaders = [
-    ...commonLoaders
-];
+// Overrides
+clientLoaders[0].use.options.plugins = ["react-hot-loader/babel"];
+
+export {
+  clientLoaders,
+  serverLoaders
+}

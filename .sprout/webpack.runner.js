@@ -23,8 +23,10 @@ const BUILD_DIR = resolve(BASE_DIR, "build");
 // Run configuration and Webpack
 (async () => {
   try {
-    // Get aliases
+    // Verify configuration
+    await sproutUtils.verifyConfig(sproutConfig);
 
+    // Get aliases
     let clientAliases = {};
     let serverAliases = {};
 
@@ -36,12 +38,9 @@ const BUILD_DIR = resolve(BASE_DIR, "build");
       serverAliases[k] = `${SRC_DIR}/${v}`;
     }
 
-    // Verify configuration
-    await sproutUtils.verifyConfig(sproutConfig);
-
     // Client configuration
     const clientConfig = {
-      entry: `${SRC_DIR}/client/index.js`,
+      entry: [`webpack-dev-server/client?http://0.0.0.0:${sproutConfig.clientPort}/`, 'webpack/hot/dev-server', `${SRC_DIR}/client/index.js`],
       module: { rules: [...loaders.clientLoaders] },
       plugins: [...plugins.clientPlugins],
       resolve: {
@@ -69,7 +68,7 @@ const BUILD_DIR = resolve(BASE_DIR, "build");
         })
       ],
       module: { rules: [...loaders.serverLoaders] },
-      plugins: [...plugins.serverPlugins(sproutConfig)],
+      plugins: [...plugins.serverPlugins()],
       resolve: {
         alias: serverAliases
       },
@@ -80,6 +79,7 @@ const BUILD_DIR = resolve(BASE_DIR, "build");
     if (!DEV) {
     } else {
       await sproutUtils.watchServer(serverConfig);
+      await sproutUtils.startDevServer(clientConfig);
     }
   } catch (err) {
     console.log(new sproutUtils.SproutError(err));

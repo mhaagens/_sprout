@@ -4,8 +4,7 @@ const DEV = process.env.NODE_ENV !== "production";
 
 const commonPlugins = [
   ...(DEV ? [new webpack.HotModuleReplacementPlugin()] : []),
-  new webpack.NamedModulesPlugin(),
-  new webpack.NoErrorsPlugin()
+  new webpack.NamedModulesPlugin()
 ];
 
 export const clientPlugins = [...commonPlugins];

@@ -4,7 +4,7 @@ import webpack from "webpack";
 import nodeExternals from "webpack-node-externals";
 import PrettyError from "pretty-error";
 import * as sproutUtils from "./sprout.utils.js";
-import sproutConfig from "../../sprout.config.js";
+import sproutConfig from "../sprout.config.js";
 import * as loaders from "./webpack.loaders.js";
 import * as plugins from "./webpack.plugins.js";
 
@@ -16,7 +16,7 @@ pe.start();
 const DEV = process.env.NODE_ENV !== "production";
 
 // Resolve folders
-const BASE_DIR = resolve(__dirname, "../../");
+const BASE_DIR = resolve(__dirname, "../");
 const SRC_DIR = resolve(BASE_DIR, "src");
 const BUILD_DIR = resolve(BASE_DIR, "build");
 
@@ -82,6 +82,6 @@ const BUILD_DIR = resolve(BASE_DIR, "build");
       await sproutUtils.watchServer(serverConfig);
     }
   } catch (err) {
-    console.log(err);
+    console.log(new sproutUtils.SproutError(err));
   }
 })();

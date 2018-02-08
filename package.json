@@ -6,7 +6,7 @@
   "author": "Martin Haagensli",
   "license": "MIT",
   "scripts": {
-    "start": "babel-node ./.sprout/config/webpack.runner.js"
+    "start": "babel-node .sprout/webpack.runner.js"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

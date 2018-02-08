@@ -68,7 +68,7 @@ const BUILD_DIR = resolve(BASE_DIR, "build");
         })
       ],
       module: { rules: [...loaders.serverLoaders] },
-      plugins: [...plugins.serverPlugins()],
+      plugins: [...plugins.serverPlugins],
       resolve: {
         alias: serverAliases
       },

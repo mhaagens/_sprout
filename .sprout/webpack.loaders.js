@@ -1,3 +1,5 @@
+import produce from "immer";
+
 const commonLoaders = [
   {
     test: /\.js$/,
@@ -24,18 +26,10 @@ const commonLoaders = [
   }
 ];
 
-let clientLoaders = [
-  ...commonLoaders
-];
+export const clientLoaders = produce(commonLoaders, draftState => {
 
-let serverLoaders = [
-    ...commonLoaders
-];
+});
 
-// Overrides
-clientLoaders[0].use.options.plugins = ["react-hot-loader/babel"];
-
-export {
-  clientLoaders,
-  serverLoaders
-}
+export const serverLoaders = produce(commonLoaders, draftState => {
+  draftState[0].use.options.plugins = ['react-hot-loader/babel'];
+});
